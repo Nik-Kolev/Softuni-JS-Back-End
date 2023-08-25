@@ -1,11 +1,9 @@
 const homeController = require('express').Router();
-const fs = require('fs');
+const { getCats } = require('../util/fsUtils');
 
 homeController.get('/', (req, res) => {
-    const data = JSON.parse(fs.readFileSync('./data/cats.json'));
+    let data = getCats();
     res.render('home', { data });
 });
 
 module.exports = homeController;
-
-//TODO: Refactor FS/Data into 1 module

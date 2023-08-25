@@ -3,6 +3,7 @@ const { getCatById, deleteCatById } = require('../util/fsUtils');
 const shelterController = require('express').Router();
 
 shelterController.get('/shelterCat/:id', (req, res) => {
+    console.log(req.params.id);
     res.render('shelter', { data: getCatById(req.params.id) });
 });
 

@@ -5,6 +5,7 @@ const addBreedController = require('./controllers/addBreedController');
 const addCatController = require('./controllers/addCatController');
 const editCatController = require('./controllers/editCatController');
 const homeController = require('./controllers/homeController');
+const searchController = require('./controllers/searchController');
 const shelterController = require('./controllers/shelterController');
 
 const handlebars = hbr.create({ extname: '.hbs' });
@@ -26,6 +27,7 @@ app.use(addBreedController);
 app.use(addCatController);
 app.use(editCatController);
 app.use(shelterController);
+app.use(searchController);
 
 app.get('*', (req, res) => {
     res.status(404).send('No such page exist');

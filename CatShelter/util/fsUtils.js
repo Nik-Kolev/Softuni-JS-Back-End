@@ -19,6 +19,10 @@ function getCatById(id) {
     return cats.find((x) => x.id == id);
 }
 
+function getCatsByName(name) {
+    return cats.filter((x) => x.name.includes(name));
+}
+
 function editCatById(id, data) {
     let cat = getCatById(id);
     for (let key in data) {
@@ -26,8 +30,8 @@ function editCatById(id, data) {
             cat[key] = data[key];
         }
     }
-    let catPosition = cats.indexOf(cat);
-    fs.writeFileSync('./data/cats.json', JSON.stringify(cats.splice(catPosition, 1, cat), null, 2));
+    cats.splice(cats.indexOf(cat), 1, cat);
+    fs.writeFileSync('./data/cats.json', JSON.stringify(cats, null, 2));
 }
 
 function createCat(data) {
@@ -49,4 +53,5 @@ module.exports = {
     getCatById,
     editCatById,
     deleteCatById,
+    getCatsByName,
 };

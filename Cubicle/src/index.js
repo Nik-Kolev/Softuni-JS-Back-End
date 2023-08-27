@@ -7,5 +7,8 @@ const port = 3000;
 
 expressConfig(app);
 hbsConfig(app);
+app.get('/', (req, res) => {
+    res.render('index');
+});
 
 app.listen(port, () => console.log(`Server is working on ${port}`));

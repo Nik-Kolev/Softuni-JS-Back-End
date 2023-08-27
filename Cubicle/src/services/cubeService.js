@@ -11,4 +11,20 @@ exports.getSingleCubeById = (id) => {
     return data.find((x) => x.id == id);
 };
 
-exports.getAll = () => data;
+exports.getAll = (search, from, to) => {
+    let result = data;
+
+    if (search) {
+        result = result.filter((x) => x.name.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    if (from) {
+        result = result.filter((x) => x.difficultyLevel >= from);
+    }
+
+    if (to) {
+        result = result.filter((x) => x.difficultyLevel <= to);
+    }
+
+    return result;
+};

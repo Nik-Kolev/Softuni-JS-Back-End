@@ -12,4 +12,9 @@ cubeController.post('/create', (req, res) => {
     res.redirect('/');
 });
 
+cubeController.get('/:id', (req, res) => {
+    let cube = cubeService.getSingleCubeById(req.params.id);
+    res.render('details', { cube });
+});
+
 module.exports = cubeController;

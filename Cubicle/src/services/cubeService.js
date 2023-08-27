@@ -7,4 +7,8 @@ exports.createCube = (cubeData) => {
     fs.writeFile('./src/database/cubes.json', JSON.stringify(data, null, 2), () => {});
 };
 
+exports.getSingleCubeById = (id) => {
+    return data.find((x) => x.id == id);
+};
+
 exports.getAll = () => data;

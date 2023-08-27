@@ -14,6 +14,9 @@ cubeController.post('/create', (req, res) => {
 
 cubeController.get('/:id', (req, res) => {
     let cube = cubeService.getSingleCubeById(req.params.id);
+    if (!cube) {
+        res.redirect('/404');
+    }
     res.render('details', { cube });
 });
 

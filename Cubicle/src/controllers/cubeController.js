@@ -1,3 +1,5 @@
+const cubeService = require('../services/cubeService');
+
 const cubeController = require('express').Router();
 
 cubeController.get('/create', (req, res) => {
@@ -6,7 +8,7 @@ cubeController.get('/create', (req, res) => {
 
 cubeController.post('/create', (req, res) => {
     let formData = req.body;
-    console.log(formData);
+    cubeService.createCube(formData);
     res.redirect('/');
 });
 

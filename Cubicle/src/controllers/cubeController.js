@@ -6,14 +6,14 @@ cubeController.get('/create', (req, res) => {
     res.render('create');
 });
 
-cubeController.post('/create', (req, res) => {
+cubeController.post('/create', async (req, res) => {
     let formData = req.body;
-    cubeService.createCube(formData);
+    await cubeService.createCube(formData);
     res.redirect('/');
 });
 
-cubeController.get('/:id', (req, res) => {
-    let cube = cubeService.getSingleCubeById(req.params.id);
+cubeController.get('/:id', async (req, res) => {
+    let cube = await cubeService.getSingleCubeById(req.params.id).lean();
     if (!cube) {
         res.redirect('/404');
     }

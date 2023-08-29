@@ -20,4 +20,8 @@ cubeController.get('/:id', async (req, res) => {
     res.render('details', { cube });
 });
 
+cubeController.get('/:id/attach-accessories', async (req, res) => {
+    res.render('accessory/attach');
+});
+
 module.exports = cubeController;

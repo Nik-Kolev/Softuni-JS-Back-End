@@ -5,7 +5,7 @@ exports.createCube = (cubeData) => {
     return cube.save();
 };
 
-exports.getSingleCubeById = (id) => Cube.findById(id);
+exports.getSingleCubeById = (id) => Cube.findById(id).populate('accessories');
 
 exports.getAll = async (search, from, to) => {
     let result = await Cube.find().lean();

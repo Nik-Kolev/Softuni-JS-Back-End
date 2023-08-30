@@ -23,7 +23,7 @@ cubeController.get('/:id', async (req, res) => {
 
 cubeController.get('/:id/attach-accessories', async (req, res) => {
     const cube = await cubeService.getSingleCubeById(req.params.id).lean();
-    const accessories = await accessoryService.getAllAccessories().lean();
+    const accessories = await accessoryService.getAvailableAccessoriesForAttachment(cube.accessories).lean();
     const hasAccessories = accessories.length > 0;
     res.render('accessory/attach', { cube, accessories, hasAccessories });
 });

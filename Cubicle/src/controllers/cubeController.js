@@ -29,9 +29,9 @@ cubeController.get('/:id/attach-accessories', async (req, res) => {
 });
 
 cubeController.post('/:id/attach-accessories', async (req, res) => {
-    console.log(req.body);
-    const accessories = await accessoryService.getById(req.params.id).lean();
-    console.log(accessories);
+    const { accessory: accessoryId } = req.body;
+    const cubeId = req.params.id;
+    cubeService.attachAccessories(cubeId, accessoryId);
     res.redirect('/cubes/' + req.params.id);
 });
 

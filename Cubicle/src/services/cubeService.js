@@ -20,3 +20,14 @@ exports.getAll = async (search, from, to) => {
     }
     return result;
 };
+
+exports.attachAccessories = async (cubeId, accessoryId) => {
+    // With 1 query
+    return Cube.findByIdAndUpdate(cubeId, { $push: { accessories: accessoryId } });
+
+    //With 2 queries but more readable
+
+    // const cube = await Cube.findById(cubeId);
+    // cube.accessories.push(accessoryId);
+    // cube.save();
+};

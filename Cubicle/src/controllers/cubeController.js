@@ -8,8 +8,8 @@ cubeController.get('/create', (req, res) => {
 });
 
 cubeController.post('/create', async (req, res) => {
-    let formData = req.body;
-    await cubeService.createCube(formData);
+    const { name, description, imageUrl, difficultyLevel } = req.body;
+    await cubeService.createCube({ name, description, imageUrl, difficultyLevel: Number(difficultyLevel), owner: req.user._id });
     res.redirect('/');
 });
 

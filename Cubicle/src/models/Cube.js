@@ -6,6 +6,7 @@ const cubeSchema = new mongoose.Schema({
     imageUrl: String,
     difficultyLevel: Number,
     accessories: [{ type: mongoose.Types.ObjectId, ref: 'Accessory' }],
+    owner: { type: mongoose.Types.ObjectId, ref: 'User' },
 });
 
 const Cube = mongoose.model('Cube', cubeSchema);

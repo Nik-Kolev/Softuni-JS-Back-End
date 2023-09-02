@@ -1,5 +1,6 @@
 const accessoryService = require('../services/accessoryService');
 const cubeService = require('../services/cubeService');
+const { selectLevel } = require('../utils/viewHelper');
 
 const cubeController = require('express').Router();
 
@@ -37,12 +38,25 @@ cubeController.post('/:id/attach-accessories', async (req, res) => {
 
 cubeController.get('/:id/delete', async (req, res) => {
     const cube = await cubeService.getSingleCubeById(req.params.id).lean();
-    res.render('cube/delete', { cube });
+    const options = selectLevel(cube.difficultyLevel);
+    res.render('cube/delete', { cube, options });
 });
 
 cubeController.post('/:id/delete', async (req, res) => {
     await cubeService.delete(req.params.id);
     res.redirect('/');
+});
+
+cubeController.get('/:id/edit', async (req, res) => {
+    const cube = await cubeService.getSingleCubeById(req.params.id).lean();
+    const options = selectLevel(cube.difficultyLevel);
+    res.render('cube/edit', { cube, options });
+});
+
+cubeController.post('/:id/edit', async (req, res) => {
+    const cubeData = req.body;
+    await cubeService.update(req.params.id, cubeData);
+    res.redirect(`/cubes/${req.params.id}`);
 });
 
 module.exports = cubeController;

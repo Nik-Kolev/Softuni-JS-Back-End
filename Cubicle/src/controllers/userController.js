@@ -9,6 +9,16 @@ userController.get('/register', async (req, res) => {
 userController.post('/register', async (req, res) => {
     const { username, password, repeatPassword } = req.body;
     await userService.register({ username, password, repeatPassword });
+    res.redirect('/login');
+});
+
+userController.get('/login', (req, res) => {
+    res.render('user/login');
+});
+
+userController.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    await userService.login(username, password);
     res.redirect('/');
 });
 

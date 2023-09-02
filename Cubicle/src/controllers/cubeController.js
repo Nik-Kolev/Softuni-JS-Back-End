@@ -19,7 +19,9 @@ cubeController.get('/:id', async (req, res) => {
     if (!cube) {
         res.redirect('/404');
     }
-    res.render('cube/details', { cube });
+
+    const isOwner = cube.owner?.toString() === req.user?._id;
+    res.render('cube/details', { cube, isOwner });
 });
 
 cubeController.get('/:id/attach-accessories', async (req, res) => {

@@ -18,6 +18,7 @@ userController.get('/register', (req, res) => {
 userController.post('/register', async (req, res) => {
     const { username, email, password, repeatPassword } = req.body;
     await userServices.register({ username, email, password, repeatPassword });
+    res.send('Done');
 });
 
 // userController.get('/logout', (req, res) => {});

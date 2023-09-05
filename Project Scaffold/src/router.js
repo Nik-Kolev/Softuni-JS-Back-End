@@ -6,4 +6,8 @@ const userController = require('./controllers/userController');
 router.use(homeController);
 router.use(userController);
 
+router.use('*', (req, res) => {
+    res.render('404');
+});
+
 module.exports = router;

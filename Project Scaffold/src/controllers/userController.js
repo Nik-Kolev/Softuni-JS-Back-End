@@ -25,6 +25,7 @@ userController.post('/register', async (req, res) => {
     const { username, email, password, repeatPassword } = req.body;
     try {
         const token = await userServices.register({ username, email, password, repeatPassword });
+        console.log(token);
         res.cookie('token', token);
         res.redirect('/');
     } catch (err) {

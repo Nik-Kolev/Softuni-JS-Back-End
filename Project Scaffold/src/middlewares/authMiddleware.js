@@ -7,6 +7,9 @@ exports.authentication = async (req, res, next) => {
         try {
             const decoded = await jwt.verify(token, SECRET);
             req.user = decoded;
+            // CHECK
+            res.locals.user = decoded;
+            res.locals.isAuthenticated = true;
         } catch (err) {
             res.clearCookie('token');
             res.redirect('/login');

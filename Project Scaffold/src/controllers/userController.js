@@ -24,7 +24,8 @@ userController.get('/register', (req, res) => {
 userController.post('/register', async (req, res) => {
     const { username, email, password, repeatPassword } = req.body;
     try {
-        await userServices.register({ username, email, password, repeatPassword });
+        const token = await userServices.register({ username, email, password, repeatPassword });
+        res.cookie('token', token);
         res.redirect('/');
     } catch (err) {
         res.render('user/register', { error: err.message });

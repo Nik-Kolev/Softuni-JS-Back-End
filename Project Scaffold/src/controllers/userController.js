@@ -8,7 +8,13 @@ userController.get('/login', (req, res) => {
 
 userController.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    await userServices.login(username, password);
+    try {
+        const token = await userServices.login(username, password);
+        res.cookie('token', token);
+        res.render('home');
+    } catch (err) {
+        res.render('user/login', { error: err.message });
+    }
 });
 
 userController.get('/register', (req, res) => {
@@ -19,7 +25,7 @@ userController.post('/register', async (req, res) => {
     const { username, email, password, repeatPassword } = req.body;
     try {
         await userServices.register({ username, email, password, repeatPassword });
-        res.render('home');
+        res.redirect('/');
     } catch (err) {
         res.render('user/register', { error: err.message });
     }

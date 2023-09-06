@@ -1,5 +1,5 @@
+const { SECRET } = require('../config/additionalConfigParams');
 const jwt = require('./jwtPromisify');
-const SECRET = '31524021-1035-4acf-ba44-bc81678da21d';
 
 module.exports.tokenCreator = async (payloadData) => {
     const payload = {

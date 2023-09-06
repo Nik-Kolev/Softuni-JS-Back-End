@@ -32,6 +32,9 @@ userController.post('/register', async (req, res) => {
     }
 });
 
-// userController.get('/logout', (req, res) => {});
+userController.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
+});
 
 module.exports = userController;

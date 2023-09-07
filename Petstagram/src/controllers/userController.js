@@ -10,7 +10,7 @@ userController.post('/login', async (req, res) => {
     try {
         const token = await userServices.login(username, password);
         res.cookie('token', token);
-        res.render('home');
+        res.redirect('/');
     } catch (err) {
         res.render('user/login', { error: err.message });
     }

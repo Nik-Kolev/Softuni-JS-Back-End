@@ -21,4 +21,10 @@ photoController.get('/catalog', async (req, res) => {
     res.render('photos/catalog', { photos });
 });
 
+photoController.get('/photoDetails/:id', async (req, res) => {
+    const photo = await photoServices.getSinglePhotoById(req.params.id).lean();
+    console.log(photo);
+    res.render('photos/details', { photo });
+});
+
 module.exports = photoController;

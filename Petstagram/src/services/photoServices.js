@@ -4,4 +4,4 @@ exports.createPhoto = (photoData) => {
     Photo.create(photoData);
 };
 
-exports.getAll = () => Photo.find();
+exports.getAll = () => Photo.find().populate('owner');

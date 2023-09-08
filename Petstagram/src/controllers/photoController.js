@@ -1,4 +1,3 @@
-const Photo = require('../models/Photo');
 const photoServices = require('../services/photoServices');
 
 const photoController = require('express').Router();
@@ -10,7 +9,7 @@ photoController.get('/addPhoto', (req, res) => {
 photoController.post('/addPhoto', async (req, res) => {
     const { name, age, description, location, image } = req.body;
     try {
-        const photo = await photoServices.createPhoto({ name, age, description, location, image, owner: req.user._id });
+        await photoServices.createPhoto({ name, age, description, location, image, owner: req.user._id });
         res.redirect('/catalog');
     } catch (err) {
         res.render('photos/create', { error: err.message });
@@ -44,10 +43,19 @@ photoController.get('/photoDetails/:id/delete', async (req, res) => {
 photoController.get('/photoDetails/:id/edit', async (req, res) => {
     try {
         const photo = await photoServices.getSinglePhotoById(req.params.id).lean();
-        console.log(photo);
         res.render('photos/edit', { photo });
     } catch (err) {
         res.render('photo/details', { error: err.message });
+    }
+});
+
+photoController.post('/photoDetails/:id/edit', async (req, res) => {
+    const photoData = req.body;
+    try {
+        await photoServices.updatePhoto(req.params.id, photoData).lean();
+        res.redirect(`/photoDetails/${req.params.id}`);
+    } catch (err) {
+        res.render('photos/edit', { error: 'Unable to update photo', ...data });
     }
 });
 

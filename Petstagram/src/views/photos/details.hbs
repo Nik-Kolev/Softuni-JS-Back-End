@@ -62,32 +62,34 @@
                         <p class='petName'>Name: {{photo.name}}</p>
                         <p class='petAge'>Age: {{photo.age}}</p>
                     </div>
-                    <div class='comments'>
-                        <div class='comments-top'>
-                            <div class='userDetails'>
-                                <div class='comment-data'>
-                                    <div class='profilepic'>
-                                        <div class='profile_img'>
-                                            <div class='image'>
-                                                <!-- User Profile Image -->
-                                                <img src='/images/person.png' alt='img8' />
+                    {{#each messages}}
+                        <div class='comments'>
+                            <div class='comments-top'>
+                                <div class='userDetails'>
+                                    <div class='comment-data'>
+                                        <div class='profilepic'>
+                                            <div class='profile_img'>
+                                                <div class='image'>
+                                                    <!-- User Profile Image -->
+                                                    <img src='/images/person.png' alt='img8' />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!--User's username-->
-                                    <p><b>StevIvanov</b>- OMG where can i get one</p>
+                                        <!--User's username-->
+                                        <p><b>{{owner.username}}</b> - {{message}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {{/each}}
                 </div>
                 {{#if isAuthenticated}}
                     {{#unless isOwner}}
                         <div class='addComments'>
                             <!-- Start Add Comments Form -->
-                            <form method='#' action='#'>
-                                <textarea id='comment-textarea' name='' cols='40' rows='10' placeholder='Add comment...'></textarea>
+                            <form method='POST'>
+                                <textarea id='comment-textarea' name='message' cols='40' rows='10' placeholder='Add comment...'></textarea>
                                 <!-- Post Comments Button -->
                                 <button type='submit'>Post</button>
                             </form>

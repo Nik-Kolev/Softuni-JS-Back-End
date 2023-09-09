@@ -11,3 +11,5 @@ exports.getSinglePhotoById = (id) => Photo.findById(id).populate('owner');
 exports.deletePhoto = (id) => Photo.findByIdAndDelete(id);
 
 exports.updatePhoto = (id, photoData) => Photo.findByIdAndUpdate(id, photoData);
+
+exports.photosByUser = (id) => Photo.find({ owner: id });

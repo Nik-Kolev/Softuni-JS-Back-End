@@ -1,12 +1,13 @@
 const photoServices = require('../services/photoServices');
 const messageServices = require('../services/messageServices');
+const { authorization } = require('../middlewares/authMiddleware');
 const photoController = require('express').Router();
 
-photoController.get('/addPhoto', (req, res) => {
+photoController.get('/addPhoto', authorization, (req, res) => {
     res.render('photos/create');
 });
 
-photoController.post('/addPhoto', async (req, res) => {
+photoController.post('/addPhoto', authorization, async (req, res) => {
     const { name, age, description, location, image } = req.body;
     try {
         await photoServices.createPhoto({ name, age, description, location, image, owner: req.user._id });
@@ -31,7 +32,7 @@ photoController.get('/photoDetails/:id', async (req, res) => {
     }
 });
 
-photoController.get('/photoDetails/:id/delete', async (req, res) => {
+photoController.get('/photoDetails/:id/delete', authorization, async (req, res) => {
     try {
         await photoServices.deletePhoto(req.params.id);
         res.redirect('/');
@@ -40,7 +41,7 @@ photoController.get('/photoDetails/:id/delete', async (req, res) => {
     }
 });
 
-photoController.get('/photoDetails/:id/edit', async (req, res) => {
+photoController.get('/photoDetails/:id/edit', authorization, async (req, res) => {
     try {
         const photo = await photoServices.getSinglePhotoById(req.params.id).lean();
         res.render('photos/edit', { photo });
@@ -49,7 +50,7 @@ photoController.get('/photoDetails/:id/edit', async (req, res) => {
     }
 });
 
-photoController.post('/photoDetails/:id/edit', async (req, res) => {
+photoController.post('/photoDetails/:id/edit', authorization, async (req, res) => {
     const photoData = req.body;
     try {
         await photoServices.updatePhoto(req.params.id, photoData).lean();
@@ -59,7 +60,7 @@ photoController.post('/photoDetails/:id/edit', async (req, res) => {
     }
 });
 
-photoController.post('/photoDetails/:id', async (req, res) => {
+photoController.post('/photoDetails/:id', authorization, async (req, res) => {
     try {
         await messageServices.sendMsg({ message: req.body.message, owner: req.user, photo: req.params.id });
         res.redirect(`/photoDetails/${req.params.id}`);

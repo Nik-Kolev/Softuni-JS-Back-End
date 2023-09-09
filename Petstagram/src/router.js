@@ -10,8 +10,8 @@ router.use(userController);
 router.use(photoController);
 router.use(profileController);
 
-// router.use('*', (req, res) => {
-//     res.render('404');
-// });
+router.use('*', (req, res) => {
+    res.render('404');
+});
 
 module.exports = router;

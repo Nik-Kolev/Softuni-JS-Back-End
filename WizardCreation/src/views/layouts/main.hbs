@@ -15,11 +15,14 @@
 
             <!-- In case of error, you should display div with class "error-container" -->
             <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
-            <!--
-        <div class="error-container">
-            <p>Error</p>
-        </div>-->
-
+            <!---->
+            {{#if errors}}
+                <div class='error-container'>
+                    {{#each errors}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
+            {{/if}}
             <nav>
                 <!-- Do not forget to change the path to the image -->
                 <img src='/img/logo.png' alt='logo' />

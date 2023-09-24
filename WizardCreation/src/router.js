@@ -5,5 +5,7 @@ const router = require('express').Router()
 router.use(homeController)
 
 
-
+router.get('*', (req, res) => {
+    res.redirect('/404')
+})
 module.exports = router

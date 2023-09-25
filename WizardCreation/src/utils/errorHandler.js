@@ -6,6 +6,9 @@ exports.errorHandler = (error) => {
             return acc;
         }, {});
     } else {
+        if (error.message.includes('email')) {
+            return { email: error.message }
+        }
         return { error: error.message }
     }
 }

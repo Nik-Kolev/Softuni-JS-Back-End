@@ -1,8 +1,13 @@
 const User = require("../models/User");
 
 exports.createUser = async (data) => {
-    //TODO: check for user data params inside the controller !
+    const user = await User.exists({ email: data.email })
     const { firstName, lastName, email, password, rePassword } = data
-    let user = await User.create({ firstName, lastName, email, password, rePassword })
-    return user
+
+    if (user) {
+        throw new Error('This email is taken!')
+    }
+
+    let result = await User.create({ firstName, lastName, email, password, rePassword })
+    return result
 }

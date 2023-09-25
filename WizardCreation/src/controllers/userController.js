@@ -10,10 +10,13 @@ userController.get('/register', (req, res) => {
 userController.post('/register', async (req, res) => {
     const { firstName, lastName, email, password, rePassword } = req.body
     try {
-        await userServices.createUser({ firstName, lastName, email, password, rePassword })
+        let token = await userServices.createUser({ firstName, lastName, email, password, rePassword })
+        res.cookie('token', token)
         res.redirect('/')
     } catch (err) {
+
         const errors = errorHandler(err)
+        console.log(errors)
         res.render('register', { errors, firstName, lastName, email, title: 'Register' })
     }
 })

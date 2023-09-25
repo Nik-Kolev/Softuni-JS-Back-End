@@ -1,3 +1,4 @@
+const { errorHandler } = require('../utils/errorHandler')
 const userServices = require('../services/userServices')
 
 const userController = require('express').Router()
@@ -9,16 +10,12 @@ userController.get('/register', (req, res) => {
 userController.post('/register', async (req, res) => {
     const { firstName, lastName, email, password, rePassword } = req.body
     try {
-        let user = await userServices.createUser({ firstName, lastName, email, password, rePassword })
-        console.log(user)
+        await userServices.createUser({ firstName, lastName, email, password, rePassword })
         res.redirect('/')
     } catch (err) {
-        const errors = Object.values(err.errors).map(x => x.properties.message)
-        // console.log(errors.map(x => x.properties.message))
-        res.render('register', { errors })
+        const errors = errorHandler(err)
+        res.render('register', { errors, firstName, lastName, email })
     }
-
-
 })
 
 userController.get('/login', (req, res) => {

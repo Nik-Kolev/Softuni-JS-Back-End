@@ -1,5 +1,4 @@
 <main>
-
     <section id='register-page'>
         <div class='signupSection'>
             <div class='info'>
@@ -16,7 +15,9 @@
                             class='inputFields'
                             id='first-name'
                             name='firstName'
-                            value=''
+                        {{#unless errors.firstName}}
+                            value='{{firstName}}'
+                        {{/unless}}
                             placeholder='Alex'
                         />
                     </li>
@@ -27,7 +28,9 @@
                             class='inputFields'
                             id='last-name'
                             name='lastName'
-                            value=''
+                        {{#unless errors.lastName}}
+                            value='{{lastName}}'
+                        {{/unless}}
                             placeholder='Petkov'
                         />
                     </li>
@@ -38,7 +41,9 @@
                             class='inputFields'
                             id='email'
                             name='email'
-                            value=''
+                        {{#unless errors.email}}
+                            value='{{email}}'
+                        {{/unless}}
                             placeholder='alex@gmail.com'
                         />
                     </li>
@@ -63,5 +68,4 @@
             </form>
         </div>
     </section>
-
 </main>

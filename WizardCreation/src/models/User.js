@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -31,6 +32,9 @@ userSchema.virtual('rePassword').set(function (value) {
     }
 });
 
+userSchema.pre('save', async function () {
+    this.password = await bcrypt.hash(this.password, 10)
+})
 
 const User = mongoose.model('User', userSchema)
 

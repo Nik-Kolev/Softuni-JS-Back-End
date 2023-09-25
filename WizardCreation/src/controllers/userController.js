@@ -4,7 +4,7 @@ const userServices = require('../services/userServices')
 const userController = require('express').Router()
 
 userController.get('/register', (req, res) => {
-    res.render('register')
+    res.render('register', { title: 'Register' })
 })
 
 userController.post('/register', async (req, res) => {
@@ -14,7 +14,7 @@ userController.post('/register', async (req, res) => {
         res.redirect('/')
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('register', { errors, firstName, lastName, email })
+        res.render('register', { errors, firstName, lastName, email, title: 'Register' })
     }
 })
 

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const jwt = require("../utils/tokenHandler");
 
 exports.createUser = async (data) => {
     const user = await User.exists({ email: data.email })
@@ -8,6 +9,8 @@ exports.createUser = async (data) => {
         throw new Error('This email is taken!')
     }
 
-    let result = await User.create({ firstName, lastName, email, password, rePassword })
-    return result
+    let newUser = await User.create({ firstName, lastName, email, password, rePassword })
+
+    return await jwt.tokenSigner(newUser)
+
 }

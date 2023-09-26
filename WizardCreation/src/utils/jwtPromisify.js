@@ -6,7 +6,7 @@ module.exports.sign = (payload, secret, options) => {
             if (!error) {
                 return resolve(result)
             }
-            reject(error)
+            return reject(error)
         })
     })
 }
@@ -15,9 +15,9 @@ module.exports.verify = (payload, secret, options) => {
     return new Promise((resolve, reject) => {
         jsonwebtoken.verify(payload, secret, options, (error, result) => {
             if (!error) {
-                resolve(result)
+                return resolve(result)
             }
-            reject(error)
+            return reject(error)
         })
     })
 }

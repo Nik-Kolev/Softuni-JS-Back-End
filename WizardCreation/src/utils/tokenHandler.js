@@ -8,5 +8,15 @@ module.exports.tokenSigner = (payloadData) => {
         email: payloadData.email
     }
 
-    return jwt.sign(payload, SECRET, { expiresIn: '2d' })
+    return jwt.combine('sign', payload, SECRET, { expiresIn: '2d' })
+}
+
+module.exports.tokenVerifier = (payloadData) => {
+    const payload = {
+        _id: payloadData._id,
+        username: payloadData.username,
+        email: payloadData.email
+    }
+
+    return jwt.combine('verify', payload, SECRET)
 }

@@ -21,7 +21,21 @@ userController.post('/register', async (req, res) => {
 })
 
 userController.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login', { title: 'Login' })
+})
+
+userController.post('/login', async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+        let token = await userServices.loginUser({ email, password })
+        res.cookie('token', token)
+        res.redirect('/')
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.clearCookie('token')
+        res.render('login', { errors, title: 'Login' })
+    }
 })
 
 module.exports = userController

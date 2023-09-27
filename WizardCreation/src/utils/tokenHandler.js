@@ -1,5 +1,5 @@
+const { SECRET } = require('../configurations/configParams')
 const jwt = require('./jwtPromisify')
-const SECRET = 'someverysecretsecret'
 
 module.exports.tokenSigner = (payloadData) => {
     const payload = {
@@ -8,15 +8,5 @@ module.exports.tokenSigner = (payloadData) => {
         email: payloadData.email
     }
 
-    return jwt.combine('sign', payload, SECRET, { expiresIn: '2d' })
-}
-
-module.exports.tokenVerifier = (payloadData) => {
-    const payload = {
-        _id: payloadData._id,
-        username: payloadData.username,
-        email: payloadData.email
-    }
-
-    return jwt.combine('verify', payload, SECRET)
+    return jwt.sign(payload, SECRET, { expiresIn: '2d' })
 }

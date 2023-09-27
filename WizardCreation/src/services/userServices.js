@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const jwt = require("../utils/tokenHandler");
+const jwtHandler = require("../utils/tokenHandler");
 const bcrypt = require('bcrypt')
 
 exports.createUser = async (data) => {
@@ -12,7 +12,7 @@ exports.createUser = async (data) => {
 
     let newUser = await User.create({ firstName, lastName, email, password, rePassword })
 
-    return jwt.tokenSigner(newUser)
+    return jwtHandler.tokenSigner(newUser)
 
 }
 
@@ -29,5 +29,5 @@ exports.loginUser = async (data) => {
         throw new Error('Wrong username or password');
     }
 
-    return jwt.tokenSigner(user)
+    return jwtHandler.tokenSigner(user)
 }

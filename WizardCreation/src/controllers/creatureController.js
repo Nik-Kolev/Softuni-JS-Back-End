@@ -3,12 +3,15 @@ const creatureServices = require('../services/creatureServices')
 const { errorHandler } = require('../utils/errorHandler')
 
 creatureController.get('/all-posts', async (req, res) => {
-    const creatures = await creatureServices.getAllCreatures()
+    try {
+        const creatures = await creatureServices.getAllCreatures()
+        res.render('all-posts', { creatures, title: 'All Posts' })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('all-posts', { errors, title: 'All Posts' })
+    }
 
-    res.render('all-posts', { creatures, title: 'All Posts' })
 })
-
-
 
 creatureController.get('/create', (req, res) => {
     res.render('create', { title: 'Create Post' })
@@ -16,18 +19,27 @@ creatureController.get('/create', (req, res) => {
 
 creatureController.post('/create', async (req, res) => {
     const { name, species, skin, eye, imageUrl, description } = req.body
-    console.log(req.user)
     try {
-        let creature = await creatureServices.createCreature({ name, species, skin, eye, imageUrl, description, owner: req.user.email })
+        await creatureServices.createCreature({ name, species, skin, eye, imageUrl, description, owner: req.user._id })
         res.redirect('/all-posts')
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('create', { errors: errors })
+        res.render('create', { errors })
     }
 })
 
-creatureController.get('/details/:id', (req, res) => {
-    res.render('details')
+creatureController.get('/details/:id', async (req, res) => {
+    const creatureId = req.params.id
+    try {
+
+        let creature = await creatureServices.getSingleCreature(creatureId)
+        let isOwner = creature.owner._id == req.user._id
+        res.render('details', { creature, title: 'Details', isOwner })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('details', { errors, title: 'Details' })
+    }
+
 })
 
 module.exports = creatureController

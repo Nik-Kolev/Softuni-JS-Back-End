@@ -28,8 +28,8 @@ const creatureSchema = new mongoose.Schema({
     votes: [],
     owner: {
         type: mongoose.Types.ObjectId,
-        ref: 'User'
-    }
+        ref: 'User',
+    },
 })
 
 const Creature = mongoose.model('Creature', creatureSchema)

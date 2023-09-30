@@ -1,4 +1,5 @@
 const creatureController = require('express').Router()
+const { creatureDataFetcher } = require('../utils/creatureDataFetcher')
 const creatureServices = require('../services/creatureServices')
 const { errorHandler } = require('../utils/errorHandler')
 
@@ -30,27 +31,41 @@ creatureController.post('/create', async (req, res) => {
 
 creatureController.get('/details/:id', async (req, res) => {
     const creatureId = req.params.id
+    const userId = req.user?._id
     try {
-        let creature = await creatureServices.getSingleCreature(creatureId)
-        let isOwner = creature.owner._id == req.user?._id
-        let canVote = await creatureServices.checkVote(creatureId, req.user?._id)
-        let totalVotes = creature.votes.filter(x => x._id).length
-        canVote == null ? canVote = true : canVote = false
-        let emails = []
-        creature.votes.map(x => emails.push(x.email))
-        emails = emails.join(', ')
+        const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
         res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails })
     } catch (err) {
         const errors = errorHandler(err)
         res.render('details', { errors, title: 'Details' })
     }
+})
 
+creatureController.get('/delete/:id', async (req, res) => {
+    const creatureId = req.params.id
+    const userId = req.user?._id
+    try {
+        await creatureServices.deleteCreature(creatureId)
+        res.redirect('/all-posts')
+    } catch (err) {
+        const errors = errorHandler(err)
+        const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
+        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+    }
 })
 
 creatureController.get('/vote/:id', async (req, res) => {
     const creatureId = req.params.id
-    creatureServices.saveVote(creatureId, req.user._id)
-    res.redirect(`/details/${creatureId}`)
+    const userId = req.user?._id
+    try {
+        creatureServices.saveVote(creatureId, req.user._id)
+        res.redirect(`/details/${creatureId}`)
+    } catch (err) {
+        const errors = errorHandler(err)
+        const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
+        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+    }
+
 })
 
 module.exports = creatureController

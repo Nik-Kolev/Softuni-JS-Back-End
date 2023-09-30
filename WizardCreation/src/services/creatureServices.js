@@ -19,3 +19,7 @@ module.exports.saveVote = async (creatureId, voteId) => {
 module.exports.checkVote = async (creatureId, voteId) => {
     return Creature.findOne({ _id: creatureId, votes: { $elemMatch: { $eq: voteId } } })
 }
+
+module.exports.deleteCreature = async (creatureId) => {
+    Creature.findByIdAndDelete(creatureId)
+}

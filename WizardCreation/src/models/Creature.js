@@ -25,7 +25,10 @@ const creatureSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    votes: [],
+    votes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
     owner: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

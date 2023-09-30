@@ -31,15 +31,26 @@ creatureController.post('/create', async (req, res) => {
 creatureController.get('/details/:id', async (req, res) => {
     const creatureId = req.params.id
     try {
-
         let creature = await creatureServices.getSingleCreature(creatureId)
-        let isOwner = creature.owner._id == req.user._id
-        res.render('details', { creature, title: 'Details', isOwner })
+        let isOwner = creature.owner._id == req.user?._id
+        let canVote = await creatureServices.checkVote(creatureId, req.user?._id)
+        let totalVotes = creature.votes.filter(x => x._id).length
+        canVote == null ? canVote = true : canVote = false
+        let emails = []
+        creature.votes.map(x => emails.push(x.email))
+        emails = emails.join(', ')
+        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails })
     } catch (err) {
         const errors = errorHandler(err)
         res.render('details', { errors, title: 'Details' })
     }
 
+})
+
+creatureController.get('/vote/:id', async (req, res) => {
+    const creatureId = req.params.id
+    creatureServices.saveVote(creatureId, req.user._id)
+    res.redirect(`/details/${creatureId}`)
 })
 
 module.exports = creatureController

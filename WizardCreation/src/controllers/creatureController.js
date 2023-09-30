@@ -2,6 +2,7 @@ const creatureController = require('express').Router()
 const { creatureDataFetcher } = require('../utils/creatureDataFetcher')
 const creatureServices = require('../services/creatureServices')
 const { errorHandler } = require('../utils/errorHandler')
+const { authentication } = require('../middlewares/authMiddleware')
 
 creatureController.get('/all-posts', async (req, res) => {
     try {
@@ -14,11 +15,11 @@ creatureController.get('/all-posts', async (req, res) => {
 
 })
 
-creatureController.get('/create', (req, res) => {
+creatureController.get('/create', authentication, (req, res) => {
     res.render('create', { title: 'Create Post' })
 })
 
-creatureController.post('/create', async (req, res) => {
+creatureController.post('/create', authentication, async (req, res) => {
     const { name, species, skin, eye, imageUrl, description } = req.body
     try {
         await creatureServices.createCreature({ name, species, skin, eye, imageUrl, description, owner: req.user._id })
@@ -29,7 +30,7 @@ creatureController.post('/create', async (req, res) => {
     }
 })
 
-creatureController.get('/details/:id', async (req, res) => {
+creatureController.get('/details/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     const userId = req.user?._id
     try {
@@ -42,7 +43,7 @@ creatureController.get('/details/:id', async (req, res) => {
     }
 })
 
-creatureController.get('/delete/:id', async (req, res) => {
+creatureController.get('/delete/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     const userId = req.user?._id
     try {
@@ -55,7 +56,7 @@ creatureController.get('/delete/:id', async (req, res) => {
     }
 })
 
-creatureController.get('/vote/:id', async (req, res) => {
+creatureController.get('/vote/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     const userId = req.user?._id
     try {
@@ -68,7 +69,7 @@ creatureController.get('/vote/:id', async (req, res) => {
     }
 })
 
-creatureController.get('/edit/:id', async (req, res) => {
+creatureController.get('/edit/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     try {
         let creature = await creatureServices.getSingleCreature(creatureId)
@@ -79,7 +80,7 @@ creatureController.get('/edit/:id', async (req, res) => {
     }
 })
 
-creatureController.post('/edit/:id', async (req, res) => {
+creatureController.post('/edit/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     try {
         const { name, species, skin, eye, imageUrl, description } = req.body

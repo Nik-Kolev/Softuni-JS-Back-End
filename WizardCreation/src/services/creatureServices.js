@@ -21,5 +21,9 @@ module.exports.checkVote = async (creatureId, voteId) => {
 }
 
 module.exports.deleteCreature = async (creatureId) => {
-    Creature.findByIdAndDelete(creatureId)
+    await Creature.findByIdAndDelete(creatureId)
+}
+
+module.exports.updateCreature = async (creatureId, editedData) => {
+    return Creature.findByIdAndUpdate(creatureId, editedData)
 }

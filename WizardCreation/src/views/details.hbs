@@ -20,7 +20,7 @@
                         <div class='social-btn'>
                             {{#if isOwner}}
                                 <!-- Only for registered user and author of the post -->
-                                <a href='#' class='edit-btn'>Edit</a>
+                                <a href='/edit/{{_id}}' class='edit-btn'>Edit</a>
                                 <a href='/delete/{{_id}}' class='del-btn'>Delete</a>
                             {{else}}
                                 {{#if canVote}}

@@ -26,7 +26,7 @@ creatureController.post('/create', authentication, async (req, res) => {
         res.redirect('/all-posts')
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('creature/create', { errors })
+        res.render('creature/create', { errors, name, species, skin, eye, imageUrl, description })
     }
 })
 

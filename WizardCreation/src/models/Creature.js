@@ -29,7 +29,7 @@ const creatureSchema = new mongoose.Schema({
     description: {
         type: String,
         required: [true, 'Description is required !'],
-        minLength: [5, 'Description should be at least 3 characters long !'],
+        minLength: [5, 'Description should be at least 5 characters long !'],
         maxLength: [500, 'Description should not exceed 00 characters !'],
     },
     votes: [{

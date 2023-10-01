@@ -11,7 +11,14 @@
                 <ul class='noBullet'>
                     <li>
                         <label for='title'>Name:</label>
-                        <input type='text' class='inputFields' id='name' placeholder='Delphini' name='name' value='' />
+                        <input
+                            type='text'
+                            class='inputFields'
+                            id='name'
+                            placeholder='Delphini'
+                            name='name'
+                            value={{name}}
+                        />
                     </li>
                     <li>
                         <label for='key-word'>Species:</label>
@@ -21,16 +28,23 @@
                             id='species'
                             placeholder='Human'
                             name='species'
-                            value=''
+                            value={{species}}
                         />
                     </li>
                     <li>
                         <label for='skin'>Skin Colour:</label>
-                        <input type='text' class='inputFields' id='skin' placeholder='Black' name='skin' value='' />
+                        <input
+                            type='text'
+                            class='inputFields'
+                            id='skin'
+                            placeholder='Black'
+                            name='skin'
+                            value={{skin}}
+                        />
                     </li>
                     <li>
                         <label for='date'>Eye Colour:</label>
-                        <input type='text' class='inputFields' id='eye' placeholder='Black' name='eye' value='' />
+                        <input type='text' class='inputFields' id='eye' placeholder='Black' name='eye' value={{eye}} />
                     </li>
                     <li>
                         <label for='image'>Creature Image:</label>
@@ -40,7 +54,7 @@
                             id='image'
                             placeholder='http:/...'
                             name='imageUrl'
-                            value=''
+                            value={{imageUrl}}
                         />
                     </li>
                     <li>
@@ -50,7 +64,7 @@
                             class='inputFields'
                             name='description'
                             placeholder='Creature...'
-                        ></textarea>
+                        >{{description}}</textarea>
                     </li>
                     <li id='center-btn'>
                         <button id='create-btn'>Create</button>

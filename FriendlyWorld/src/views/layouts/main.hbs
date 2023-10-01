@@ -9,13 +9,15 @@
     </head>
 
     <body>
-
-        {{! <div>
-            <div class='errorContainer'>
-                <p>Error</p>
+        {{#if errors}}
+            <div>
+                <div class='errorContainer'>
+                    {{#each errors}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
             </div>
-        </div> }}
-
+        {{/if}}
         <div id='wrapper'>
             <header>
                 <!-- Navigation -->

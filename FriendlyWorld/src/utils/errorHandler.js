@@ -8,7 +8,7 @@ module.exports = function errorHandler(error) {
         }, {})
     } else {
         if (error.message.includes('email')) {
-            return { email: error.message }
+            return { error: 'User with such email already exists !' }
         }
         return { error: error.message }
     }

@@ -4,7 +4,7 @@ module.exports.createCreature = async (data) => {
     return Creature.create(data)
 }
 
-module.exports.getAllCreatures = async () => {
+module.exports.getAllCreatures = async (userId) => {
     return Creature.find().lean()
 }
 
@@ -26,4 +26,8 @@ module.exports.deleteCreature = async (creatureId) => {
 
 module.exports.updateCreature = async (creatureId, editedData) => {
     return Creature.findByIdAndUpdate(creatureId, editedData)
+}
+
+module.exports.getAllOwnedCreatures = async (userId) => {
+    return Creature.find({ owner: userId }).populate('owner').lean()
 }

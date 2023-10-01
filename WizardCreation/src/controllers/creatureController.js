@@ -16,7 +16,7 @@ creatureController.get('/all-posts', async (req, res) => {
 })
 
 creatureController.get('/create', authentication, (req, res) => {
-    res.render('create', { title: 'Create Post' })
+    res.render('creature/create', { title: 'Create Post' })
 })
 
 creatureController.post('/create', authentication, async (req, res) => {
@@ -26,7 +26,7 @@ creatureController.post('/create', authentication, async (req, res) => {
         res.redirect('/all-posts')
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('create', { errors })
+        res.render('creature/create', { errors })
     }
 })
 
@@ -35,11 +35,11 @@ creatureController.get('/details/:id', authentication, async (req, res) => {
     const userId = req.user?._id
     try {
         const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
-        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails })
+        res.render('creature/details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails })
     } catch (err) {
         const errors = errorHandler(err)
         const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
-        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+        res.render('creature/details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
     }
 })
 
@@ -52,7 +52,7 @@ creatureController.get('/delete/:id', authentication, async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
-        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+        res.render('creature/details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
     }
 })
 
@@ -65,7 +65,7 @@ creatureController.get('/vote/:id', authentication, async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
-        res.render('details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+        res.render('creature/details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
     }
 })
 
@@ -73,10 +73,10 @@ creatureController.get('/edit/:id', authentication, async (req, res) => {
     const creatureId = req.params.id
     try {
         let creature = await creatureServices.getSingleCreature(creatureId)
-        res.render('edit', { ...creature, title: 'Edit Creature' })
+        res.render('creature/edit', { ...creature, title: 'Edit Creature' })
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('edit', { errors, title: 'Edit Creature' })
+        res.render('creature/edit', { errors, title: 'Edit Creature' })
     }
 })
 
@@ -88,7 +88,7 @@ creatureController.post('/edit/:id', authentication, async (req, res) => {
         res.redirect(`/details/${creatureId}`)
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('edit', { errors, title: 'Edit Creature' })
+        res.render('creature/edit', { errors, title: 'Edit Creature' })
     }
 })
 

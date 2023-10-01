@@ -9,13 +9,36 @@ userController.get('/register', async (req, res) => {
 userController.post('/register', async (req, res) => {
     const { email, password, rePass } = req.body
     try {
-        await userServices.register({ email, password, rePass })
+        const token = await userServices.register({ email, password, rePass })
+        res.cookie('token', token)
         res.redirect('/')
     } catch (err) {
-        console.log(err)
         const errors = errorHandler(err)
+        res.clearCookie()
         res.render('user/register', { title: 'Register', errors })
     }
+})
+
+userController.get('/login', (req, res) => {
+    res.render('user/login', { title: 'Login' })
+})
+
+userController.post('/login', async (req, res) => {
+    const { email, password } = req.body
+    try {
+        const token = await userServices.login({ email, password })
+        res.cookie('token', token)
+        res.redirect('/')
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.clearCookie()
+        res.render('user/login', { title: 'Login', errors })
+    }
+})
+
+userController.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    res.redirect('/')
 })
 
 module.exports = userController

@@ -17,4 +17,14 @@ petController.post('/add-animal', async (req, res) => {
     }
 })
 
+petController.get('/details/:id', (req, res) => {
+    try {
+        res.render('pets/details', { title: 'Pet Details' })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('pets/details', { title: 'Pet Details', errors })
+    }
+
+})
+
 module.exports = petController

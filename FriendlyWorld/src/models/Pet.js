@@ -14,7 +14,12 @@ const petSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: [true, 'ImageUrl is required !'],
-        match: /^https?:\/\//i
+        validate: {
+            validator: function (value) {
+                return /^https?:\/\//i.test(value);
+            },
+            message: 'ImageUrl must be a valid URL starting with http:// or https://',
+        },
     },
     years: {
         type: Number,
@@ -39,6 +44,18 @@ const petSchema = new mongoose.Schema({
         required: [true, 'Location is required !'],
         minLength: [5, 'Animal location should be between 5 and 15 characters !'],
         maxLength: [15, 'Animal location should be between 5 and 15 characters !']
+    },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+    donations: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    timestamp: {
+        type: Date,
+        default: Date.now()
     }
 })
 

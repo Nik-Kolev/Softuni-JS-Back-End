@@ -5,5 +5,9 @@ module.exports.createPet = async (data) => {
 }
 
 module.exports.getAllPets = async () => {
-    return Pet.find().populate('owner').lean()
+    return Pet.find().lean()
+}
+
+module.exports.getSpecificPet = async (petId) => {
+    return Pet.findOne({ _id: petId }).populate('owner').lean()
 }

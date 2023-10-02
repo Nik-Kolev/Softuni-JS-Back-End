@@ -11,3 +11,11 @@ module.exports.getAllPets = async () => {
 module.exports.getSpecificPet = async (petId) => {
     return Pet.findOne({ _id: petId }).populate('owner').lean()
 }
+
+module.exports.donations = async (petId, userId) => {
+    return Pet.findByIdAndUpdate(petId, { $push: { donations: userId } }, { new: true })
+}
+
+module.exports.checkDonations = async (petId, userId) => {
+    return Pet.countDocuments({ _id: petId, donations: userId })
+}

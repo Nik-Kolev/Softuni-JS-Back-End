@@ -10,7 +10,7 @@ petController.post('/add-animal', async (req, res) => {
     const { name, years, kind, imageUrl, needs, location, description } = req.body
     try {
         let pet = await petServices.createPet({ name, years, kind, imageUrl, needs, location, description, owner: req.user?._id })
-        res.render('pets/create', { pet, title: 'Add Animal' })
+        res.redirect('/dashboard')
     } catch (err) {
         const errors = errorHandler(err)
         res.render('pets/create', { title: 'Add Animal', errors, name, years, kind, imageUrl, needs, location, description })
@@ -41,7 +41,16 @@ petController.get('/donate/:id', async (req, res) => {
         const errors = errorHandler(err)
         res.render('pets/details', { title: 'Pet Details', errors })
     }
+})
 
+petController.get('/dashboard', async (req, res) => {
+    try {
+        const pets = await petServices.getAllPets()
+        res.render('pets/dashboard', { title: 'Dashboard', pets })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('pets/dashboard', { title: 'Dashboard', errors })
+    }
 })
 
 module.exports = petController

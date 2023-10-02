@@ -1,15 +1,16 @@
 const mongoose = require("mongoose")
 
 module.exports = function errorHandler(error) {
-    if (error instanceof mongoose.MongooseError) {
-        return Object.values(error.errors).reduce((a, b) => {
-            a[b.path] = b.properties.message
-            return a
+    if (error instanceof mongoose.Error.ValidationError) {
+        return Object.values(error.errors).reduce((acc, x) => {
+            if (x.path == 'years') {
+                acc[x.path] = 'Years must be a positive number !'
+                return acc
+            }
+            acc[x.path] = x.message
+            return acc
         }, {})
     } else {
-        if (error.message.includes('email')) {
-            return { error: 'User with such email already exists !' }
-        }
         return { error: error.message }
     }
 }

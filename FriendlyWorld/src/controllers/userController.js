@@ -14,7 +14,6 @@ userController.post('/register', async (req, res) => {
         res.redirect('/')
     } catch (err) {
         const errors = errorHandler(err)
-        console.log(errors)
         res.clearCookie()
         res.render('user/register', { title: 'Register', errors })
     }

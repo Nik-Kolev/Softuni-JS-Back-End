@@ -1,18 +1,16 @@
 
         <main class="create">
-            <!-- Create Page (Only for logged-in users) -->
             <section id="create">
                 <div class="form">
                     <h2>Add item</h2>
-                    <form class="create-form" method="" action="#">
-                        <input type="text" name="name" id="name" placeholder="Name" />
-                        <input type="text" name="years" id="years" placeholder="Years" />
-                        <input type="text" name="kind" id="kind" placeholder="Kind" />
-                        <input type="text" name="imageUrl" id="animal-img" placeholder="Image url" />
-                        <input type="text" name="needs" id="needs-of" placeholder="Needs of" />
-                        <input type="text" name="location" id="location" placeholder="Location" />
-                        <textarea id="description" placeholder="Description..." name=""></textarea>
-
+                    <form class="create-form" method="post">
+                        <input type="text" name="name" id="name" placeholder="Name" {{#unless errors.name}} value="{{name}}" {{/unless}}/>
+                        <input type="text" name="years" id="years" placeholder="Years" {{#unless errors.years}} value="{{years}}" {{/unless}} />
+                        <input type="text" name="kind" id="kind" placeholder="Kind" {{#unless errors.kind}} value="{{kind}}" {{/unless}}/>
+                        <input type="text" name="imageUrl" id="animal-img" placeholder="Image url" {{#unless errors.imageUrl}} value="{{imageUrl}}" {{/unless}} />
+                        <input type="text" name="needs" id="needs-of" placeholder="Needs of" {{#unless errors.needs}} value="{{needs}}" {{/unless}}/>
+                        <input type="text" name="location" id="location" placeholder="Location" {{#unless errors.location}} value="{{location}}" {{/unless}}/>
+                        <textarea id="description" placeholder="Description..." name="description">{{#unless errors.description}} {{description}} {{/unless}}</textarea>
                         <button type="submit">Post</button>
                     </form>
                 </div>

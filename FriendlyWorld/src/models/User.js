@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
-        unique: [true, 'asd'],
         required: [true, 'Email is required !'],
-        minLength: [10, 'Email must be 10 characters or more !']
+        minLength: [10, 'Email must be 10 characters or more !'],
+        set: (email) => email.toLowerCase()
     },
     password: {
         type: String,
@@ -17,7 +17,10 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.virtual('rePass').set(function (value) {
-    if (value != this.password) {
+    if (value.length == 0 && this.password.length > 0 && this.email.length > 0) {
+        throw new Error('Repeat password is required !')
+    }
+    if (this.password && this.email && value != this.password) {
         throw new Error('Email or password is invalid !')
     }
 })

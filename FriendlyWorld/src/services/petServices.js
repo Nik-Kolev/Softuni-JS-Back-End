@@ -23,3 +23,7 @@ module.exports.checkDonations = async (petId, userId) => {
 module.exports.deletePet = async (petId) => {
     return Pet.findByIdAndDelete(petId)
 }
+
+module.exports.editPet = async (petId, data) => {
+    return Pet.findByIdAndUpdate(petId, data, { new: true, runValidators: true })
+}

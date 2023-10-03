@@ -9,7 +9,7 @@ petController.get('/add-animal', (req, res) => {
 petController.post('/add-animal', async (req, res) => {
     const { name, years, kind, imageUrl, needs, location, description } = req.body
     try {
-        let pet = await petServices.createPet({ name, years, kind, imageUrl, needs, location, description, owner: req.user?._id })
+        await petServices.createPet({ name, years, kind, imageUrl, needs, location, description, owner: req.user?._id })
         res.redirect('/dashboard')
     } catch (err) {
         const errors = errorHandler(err)
@@ -60,6 +60,27 @@ petController.get('/delete/:id', async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         res.render(`/details/${req.params.id}`, { title: 'Pet Details', errors })
+    }
+})
+
+petController.get('/edit/:id', async (req, res) => {
+    try {
+        const pet = await petServices.getSpecificPet(req.params.id)
+        res.render('pets/edit', { title: 'Edit Pet Info', ...pet })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('pets/edit', { title: 'Edit Pet Info', errors })
+    }
+})
+
+petController.post('/edit/:id', async (req, res) => {
+    const { name, years, kind, imageUrl, needs, location, description } = req.body
+    try {
+        await petServices.editPet(req.params.id, { name, years, kind, imageUrl, needs, location, description })
+        res.redirect(`/details/${req.params.id}`)
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('pets/edit', { title: 'Edit Pet Info', errors, name, years, kind, imageUrl, needs, location, description })
     }
 })
 

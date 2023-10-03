@@ -35,7 +35,7 @@
             <!--Edit and Delete are only for creator-->
             <div id='action-buttons'>
                 {{#if isOwner}}
-                    <a href='#' id='edit-btn'>Edit</a>
+                    <a href='/edit/{{_id}}' id='edit-btn'>Edit</a>
                     <a href='/delete/{{_id}}' id='delete-btn'>Delete</a>
                 {{else}}
                     {{#if user}}

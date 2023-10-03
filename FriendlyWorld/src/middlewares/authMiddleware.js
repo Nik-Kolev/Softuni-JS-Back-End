@@ -17,3 +17,11 @@ module.exports.authentication = async (req, res, next) => {
     }
     next()
 }
+
+module.exports.isAuthorized = async (req, res, next) => {
+    if (!req.user) {
+        res.redirect('/404')
+    } else {
+        next()
+    }
+}

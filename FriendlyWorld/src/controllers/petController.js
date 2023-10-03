@@ -1,12 +1,13 @@
 const errorHandler = require('../utils/errorHandler')
 const petServices = require('../services/petServices')
 const petController = require('express').Router()
+const { isAuthorized } = require('../middlewares/authMiddleware')
 
-petController.get('/add-animal', (req, res) => {
+petController.get('/add-animal', isAuthorized, (req, res) => {
     res.render('pets/create', { title: 'Add Animal' })
 })
 
-petController.post('/add-animal', async (req, res) => {
+petController.post('/add-animal', isAuthorized, async (req, res) => {
     const { name, years, kind, imageUrl, needs, location, description } = req.body
     try {
         await petServices.createPet({ name, years, kind, imageUrl, needs, location, description, owner: req.user?._id })
@@ -33,7 +34,7 @@ petController.get('/details/:id', async (req, res) => {
 
 })
 
-petController.get('/donate/:id', async (req, res) => {
+petController.get('/donate/:id', isAuthorized, async (req, res) => {
     try {
         await petServices.donations(req.params.id, req.user._id)
         res.redirect(`/details/${req.params.id}`)
@@ -53,7 +54,7 @@ petController.get('/dashboard', async (req, res) => {
     }
 })
 
-petController.get('/delete/:id', async (req, res) => {
+petController.get('/delete/:id', isAuthorized, async (req, res) => {
     try {
         await petServices.deletePet(req.params.id)
         res.redirect('/dashboard')
@@ -63,7 +64,7 @@ petController.get('/delete/:id', async (req, res) => {
     }
 })
 
-petController.get('/edit/:id', async (req, res) => {
+petController.get('/edit/:id', isAuthorized, async (req, res) => {
     try {
         const pet = await petServices.getSpecificPet(req.params.id)
         res.render('pets/edit', { title: 'Edit Pet Info', ...pet })
@@ -73,7 +74,7 @@ petController.get('/edit/:id', async (req, res) => {
     }
 })
 
-petController.post('/edit/:id', async (req, res) => {
+petController.post('/edit/:id', isAuthorized, async (req, res) => {
     const { name, years, kind, imageUrl, needs, location, description } = req.body
     try {
         await petServices.editPet(req.params.id, { name, years, kind, imageUrl, needs, location, description })

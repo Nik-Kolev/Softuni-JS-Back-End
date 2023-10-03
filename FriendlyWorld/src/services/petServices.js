@@ -27,3 +27,7 @@ module.exports.deletePet = async (petId) => {
 module.exports.editPet = async (petId, data) => {
     return Pet.findByIdAndUpdate(petId, data, { new: true, runValidators: true })
 }
+
+module.exports.getPetsBySearchParams = async (location) => {
+    return Pet.find({ location: new RegExp(`.*${location}.*`, 'i') }).lean()
+}

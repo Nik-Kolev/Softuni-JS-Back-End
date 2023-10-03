@@ -19,3 +19,7 @@ module.exports.donations = async (petId, userId) => {
 module.exports.checkDonations = async (petId, userId) => {
     return Pet.countDocuments({ _id: petId, donations: userId })
 }
+
+module.exports.deletePet = async (petId) => {
+    return Pet.findByIdAndDelete(petId)
+}

@@ -53,4 +53,14 @@ petController.get('/dashboard', async (req, res) => {
     }
 })
 
+petController.get('/delete/:id', async (req, res) => {
+    try {
+        await petServices.deletePet(req.params.id)
+        res.redirect('/dashboard')
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render(`/details/${req.params.id}`, { title: 'Pet Details', errors })
+    }
+})
+
 module.exports = petController

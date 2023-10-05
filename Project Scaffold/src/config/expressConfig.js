@@ -1,16 +1,13 @@
-const { urlencoded } = require('express');
-const express = require('express');
-const cookie = require('cookie-parser');
-const path = require('path');
-const { authentication } = require('../middlewares/authMiddleware');
-const PORT = 3000;
+const express = require('express')
+const path = require('path')
+const PORT = 3000
+const cookie = require('cookie-parser')
+const { authentication } = require('../middlewares/authMiddleware')
 
-function expressConfig(app) {
-    app.use(urlencoded({ extended: false }));
-    app.use(express.static(path.resolve(__dirname, '../static')));
-    app.use(cookie());
-    app.use(authentication);
-    app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+module.exports = function expressConfig(app) {
+    app.use(express.urlencoded({ extended: false }))
+    app.use(express.static(path.resolve(__dirname, '../static')))
+    app.use(cookie())
+    app.use(authentication)
+    app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`))
 }
-
-module.exports = expressConfig;

@@ -1,29 +1,32 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const { tokenCreator } = require('../lib/tokenCreator');
+const User = require("../models/User");
+const tokenHandler = require('../utils/tokenHandler')
+const bcrypt = require('bcrypt')
 
-exports.register = async (userData) => {
-    const user = await User.exists({ username: userData.username });
+module.exports.register = async (userData) => {
+    const { email, password, rePass } = userData
+    const user = await User.exists({ email })
+
     if (user) {
-        throw new Error('Username is already taken!');
+        throw new Error('User with such email already exists!')
     }
 
-    const newUser = await User.create(userData);
-    return tokenCreator(newUser);
-};
+    const newUser = await User.create({ email, password, rePass })
 
-exports.login = async (username, password) => {
-    const user = await User.findOne({ username });
+    return tokenHandler.tokenCreator(newUser, { expiresIn: '2d' })
+}
+
+module.exports.login = async (userData) => {
+    const user = await User.findOne({ email: userData.email })
 
     if (!user) {
-        throw new Error('Wrong username or password');
+        throw new Error('Email or password is incorrect !')
     }
 
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(userData.password, user.password)
 
     if (!isValid) {
-        throw new Error('Wrong username or password');
+        throw new Error('Email or password is incorrect !')
     }
 
-    return tokenCreator(user);
-};
+    return tokenHandler.tokenCreator(user, { expiresIn: '2d' })
+}

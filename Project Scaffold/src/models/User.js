@@ -1,32 +1,34 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-    },
     email: {
         type: String,
-        required: true,
+        required: [true, 'Email is required !'],
+        minLength: [10, 'Email must be 10 characters or more !'],
+        set: (email) => email.toLowerCase()
     },
     password: {
         type: String,
-        required: true,
+        required: [true, 'Password is required !'],
+        minLength: [4, 'Password must be 4 characters or more !']
     },
-});
 
-userSchema.virtual('repeatPassword').set(function (value) {
-    if (this.password !== value) {
-        throw new Error('Passwords must match');
+})
+
+userSchema.virtual('rePass').set(function (value) {
+    if (value.length == 0 && this.password.length > 0 && this.email.length > 0) {
+        throw new Error('Repeat password is required !')
     }
-});
+    if (this.password && this.email && value != this.password) {
+        throw new Error('Email or password is invalid !')
+    }
+})
 
 userSchema.pre('save', async function () {
-    const hash = await bcrypt.hash(this.password, 10);
-    this.password = hash;
-});
+    this.password = await bcrypt.hash(this.password, 10)
+})
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
 
-module.exports = User;
+module.exports = User

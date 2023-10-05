@@ -1,26 +1,27 @@
-const { SECRET } = require('../config/additionalConfigParams');
-const jwt = require('../lib/jwtPromisify');
+const jwt = require('../utils/jwtPromisify')
+const SECRET = require('../config/additionalConfigInfo')
 
-exports.authentication = async (req, res, next) => {
-    const token = req.cookies['token'];
+module.exports.authentication = async (req, res, next) => {
+    const token = req.cookies['token']
+
     if (token) {
         try {
-            const decoded = await jwt.verify(token, SECRET);
-            req.user = decoded;
-            // CHECK
-            res.locals.user = decoded;
-            res.locals.isAuthenticated = true;
+            const decodedToken = await jwt.verify(token, SECRET)
+            req.user = decodedToken
+            res.locals.user = decodedToken
+            res.locals.isAuth = true
         } catch (err) {
-            res.clearCookie('token');
-            res.redirect('/login');
+            res.clearCookie('token')
+            res.redirect('/login')
         }
     }
-    next();
-};
+    next()
+}
 
-exports.authorization = (req, res, next) => {
+module.exports.isAuthorized = async (req, res, next) => {
     if (!req.user) {
-        res.redirect('login');
+        res.redirect('/404')
+    } else {
+        next()
     }
-    next();
-};
+}

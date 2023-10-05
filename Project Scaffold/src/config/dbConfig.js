@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
-const URI = 'mongodb://127.0.0.1:27017/test';
+const mongoose = require('mongoose')
+const URI = 'mongodb://127.0.0.1:27017/FriendlyWorld';
 
-async function dbConnect() {
-    await mongoose.connect(URI);
-    // Checking Database status: 0: disconnected / 1: connected / 2: connecting / 3: disconnecting
-    console.log(mongoose.connection.readyState);
+module.exports = async function mongooseConfig() {
+    try {
+        await mongoose.connect(URI)
+        console.log('DB is connected successfully!')
+    } catch (err) {
+        console.log(err)
+    }
+
 }
-
-module.exports = dbConnect;

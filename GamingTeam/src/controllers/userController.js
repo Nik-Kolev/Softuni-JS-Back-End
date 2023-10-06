@@ -25,6 +25,7 @@ userController.get('/login', (req, res) => {
 
 userController.post('/login', async (req, res) => {
     const { email, password } = req.body
+    console.log(req.body)
     try {
         const token = await userServices.login({ email, password })
         res.cookie('token', token)

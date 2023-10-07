@@ -4,7 +4,7 @@ const gameSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required !'],
-        minLength: [4, 'Game name must be at least 4 characters long !']
+        minLength: [4, 'Game name must be at least 4 characters long !'],
     },
     imageUrl: {
         type: String,

@@ -1,29 +1,34 @@
-<main class='search'>
-    <!-- Search Page (Only for logged-in users) -->
-    <section id='search'>
-        <h2>Search by Location</h2>
+<main id="search">
+    <section class="game-search">
+        <h1>Search</h1>
 
-        <form class='search-wrapper cf' method='POST'>
-            <input id='#search-input' type='text' name='searchInput' placeholder='Search here...' required />
-            <button type='submit'>Search</button>
+        <form class="search-form"  method="post">
+            <input type="text" class="search-game" name="searchInput" placeholder="Search here..." />
+            <select id="platform" name="platform">
+                <option value="">-------</option>
+                <option value="PC">PC</option>
+                <option value="Nintendo">Nintendo</option>
+                <option value="PS4">PS4</option>
+                <option value="PS5">PS5</option>
+                <option value="XBOX">XBOX</option>
+            </select>
+            <button type="submit" class="btn-search">Search</button>
         </form>
 
-        <div id='search-container'>
-            {{#if searchInput}}
-                {{#if pets}}
-                    <ul class='card-wrapper'>
-                <!-- Display a li with information about every post (if any)-->
-                        {{#each pets}}
-                            {{>petCard}}
-                        {{/each}} 
-                    </ul>
-            {{else}}
-            <!-- Display an h2 if there are no posts -->
-            <div id="no-post">
-                        <h2>There are no results found.</h2>
-                    </div>
+        <div class="search-result">
+             <div class="search-list">
+                {{#if games}}
+                    {{#each games}}
+                        {{>searchCard}}
+                    {{/each}}
+                {{else}}
+            <div class="no-match">
+                <p>No match was found!</p>
+            </div>
                 {{/if}}
-            {{/if}}
+          </div>
         </div>
     </section>
 </main>
+
+                   

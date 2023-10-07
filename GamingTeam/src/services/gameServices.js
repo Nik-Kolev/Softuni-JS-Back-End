@@ -19,3 +19,17 @@ module.exports.editGameById = (gameId, data) => {
 }
 
 module.exports.deleteGameById = (gameId) => Game.findByIdAndDelete(gameId)
+
+module.exports.searchGames = (searchInput, platform) => {
+    let searchRegex = searchInput ? new RegExp(`.*${searchInput}.*`, 'i') : null
+
+    let query = { $or: [] }
+
+    if (searchRegex) {
+        query.$or.push({ name: { $regex: searchRegex } })
+    }
+    if (platform) {
+        query.$or.push({ platform })
+    }
+    return Game.find(query)
+}

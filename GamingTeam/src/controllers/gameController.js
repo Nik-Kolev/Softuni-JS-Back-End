@@ -21,14 +21,15 @@ gameController.get('/createGame', (req, res) => {
 gameController.post('/createGame', async (req, res) => {
     const { platform, name, imageUrl, price, genre, description } = req.body
 
-    Object.values(platformOptions).map(x => x.option == platform ? x.isTrue = true : x.isTrue = false)
+    let currentPlatformOption = Object.assign(platformOptions, {})
+    Object.values(currentPlatformOption).map(x => x.option == platform ? x.isTrue = true : x.isTrue = false)
 
     try {
         await gameServices.createGame({ platform, name, imageUrl, price, genre, description, owner: req.user._id })
         res.redirect('/catalog')
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('game/create', { title: 'Create Game', errors, name, imageUrl, price, genre, description, platformOptions })
+        res.render('game/create', { title: 'Create Game', errors, name, imageUrl, price, genre, description, currentPlatformOption })
     }
 
 })
@@ -52,6 +53,35 @@ gameController.get('/buy/:id', async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         res.render('game/details', { title: 'Game Details', errors })
+    }
+})
+
+gameController.get('/edit/:id', async (req, res) => {
+    try {
+        const game = await gameServices.getGameById(req.params.id).lean()
+
+        let currentPlatformOption = Object.assign(platformOptions, {})
+        Object.values(currentPlatformOption).map(x => x.option == game.platform ? x.isTrue = true : x.isTrue = false)
+
+        res.render('game/edit', { title: 'Edit Game', ...game, currentPlatformOption })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('game/edit', { title: 'Edit Game', errors })
+    }
+})
+
+gameController.post('/edit/:id', async (req, res) => {
+    const { platform, name, imageUrl, price, genre, description } = req.body
+
+    let currentPlatformOption = Object.assign(platformOptions, {})
+    Object.values(currentPlatformOption).map(x => x.option == platform ? x.isTrue = true : x.isTrue = false)
+
+    try {
+        await gameServices.editGameById(req.params.id, { platform, name, imageUrl, price, genre, description })
+        res.redirect(`/details/${req.params.id}`)
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('game/edit', { title: 'Edit Game', errors, name, imageUrl, price, genre, description, currentPlatformOption })
     }
 })
 

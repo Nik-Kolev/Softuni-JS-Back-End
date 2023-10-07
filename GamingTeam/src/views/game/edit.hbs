@@ -1,23 +1,45 @@
-        <main class="edit">
-            <!-- Edit Page (Only for logged-in users) -->
-            <section id="create">
-                <div class="form">
-                    <h2>Edit item</h2>
-                    <form class="create-form" method="POST">
-                         <input type="text" name="name" id="name" placeholder="Name" {{#unless errors.name}} value="{{name}}" {{/unless}}/>
-                        <input type="text" name="years" id="years" placeholder="Years" {{#unless errors.years}} value="{{years}}" {{/unless}} />
-                        <input type="text" name="kind" id="kind" placeholder="Kind" {{#unless errors.kind}} value="{{kind}}" {{/unless}}/>
-                        <input type="text" name="imageUrl" id="animal-img" placeholder="Image url" {{#unless errors.imageUrl}} value="{{imageUrl}}" {{/unless}} />
-                        <input type="text" name="needs" id="needs-of" placeholder="Needs of" {{#unless errors.needs}} value="{{needs}}" {{/unless}}/>
-                        <input type="text" name="location" id="location" placeholder="Location" {{#unless errors.location}} value="{{location}}" {{/unless}}/>
-                    {{#unless errors.description}} 
-                        <textarea id="description" placeholder="Description..." name="description" >{{description}}</textarea>
-                        {{else}}
-                        <textarea id="description" placeholder="Description..." name="description" ></textarea>
-                    {{/unless}}
-                        <button type="submit">Edit</button>
-                    </form>
+    <main id="edit">
+            {{#if errors}}
+                <div>
+                    <div class='errorContainer'>
+                        {{#each errors}}
+                            <p>{{this}}</p>
+                        {{/each}}
+                    </div>
                 </div>
-            </section>
-        </main>
-    </div>
+            {{/if}}
+        <section id="edit-container">
+            <div class="edit-container-info">
+                <h1>Edit Game Code Offer</h1>
+                <form method="post">
+                    <label>Platform:</label>
+                    <select id="platform" name="platform">
+                        {{#if errors.platform}}
+                    <option value=''>-------</option>
+                    <option value='PC'>PC</option>
+                    <option value='Nintendo'>Nintendo</option>
+                    <option value='PS4'>PS4</option>
+                    <option value='PS5'>PS5</option>
+                    <option value='XBOX'>XBOX</option>
+                    {{else}}
+                        {{#each currentPlatformOption}}
+                        <option value='{{this.value}}' {{#if this.isTrue}} selected {{/if}}>{{this.option}}</option>
+                        {{/each}}
+                    {{/if}}
+                    </select>
+                    <label>Name:</label>
+                    <input type="text" id="name" name="name" {{#unless errors.name}} value="{{name}}" {{/unless}}>
+                    <label>Image:</label>
+                    <input type="text" id="image" name="imageUrl" placeholder="https://image.api.playstation.com/vulcan/ap/rnd/202208/0921/dR9KJAKDW2izPbptHQbh3rnj.png" {{#unless errors.imageUrl}} value="{{imageUrl}}" {{/unless}}>
+                    <label>Price:</label>
+                    <input type="number" id="price" name="price" value="{{price}}">
+                    <label>Genre:</label>
+                    <input type="text" id="genre" name="genre" value="{{genre}}">
+                    <label>Description:</label>
+                    <textarea id="description" name="description">{{description}}
+                    </textarea>
+                    <input type="submit" id="btn" value="EDIT"></input>
+                </form>
+            </div>
+        </section>
+    </main>

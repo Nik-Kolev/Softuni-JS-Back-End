@@ -23,7 +23,7 @@
                     <option value='PS5'>PS5</option>
                     <option value='XBOX'>XBOX</option>
                     {{else}}
-                        {{#each platformOptions}}
+                        {{#each currentPlatformOption}}
                         <option value='{{this.value}}' {{#if this.isTrue}} selected {{/if}}>{{this.option}}</option>
                         {{/each}}
                     {{/if}}

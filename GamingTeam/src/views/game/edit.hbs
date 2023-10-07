@@ -32,12 +32,15 @@
                     <label>Image:</label>
                     <input type="text" id="image" name="imageUrl" placeholder="https://image.api.playstation.com/vulcan/ap/rnd/202208/0921/dR9KJAKDW2izPbptHQbh3rnj.png" {{#unless errors.imageUrl}} value="{{imageUrl}}" {{/unless}}>
                     <label>Price:</label>
-                    <input type="number" id="price" name="price" value="{{price}}">
+                    <input type="number" id="price" name="price" {{#unless errors.price}} value="{{price}}" {{/unless}}>
                     <label>Genre:</label>
-                    <input type="text" id="genre" name="genre" value="{{genre}}">
+                    <input type="text" id="genre" name="genre" {{#unless errors.genre}} value="{{genre}}" {{/unless}}>
                     <label>Description:</label>
-                    <textarea id="description" name="description">{{description}}
-                    </textarea>
+                    {{#unless errors.description}} 
+                        <textarea id="description" placeholder="Description..." name="description" >{{description}}</textarea>
+                        {{else}}
+                        <textarea id="description" placeholder="Description..." name="description" ></textarea>
+                    {{/unless}}
                     <input type="submit" id="btn" value="EDIT"></input>
                 </form>
             </div>

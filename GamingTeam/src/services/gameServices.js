@@ -17,3 +17,5 @@ module.exports.checkIfBought = (gameId, userId) => {
 module.exports.editGameById = (gameId, data) => {
     return Game.findByIdAndUpdate({ _id: gameId }, data, { new: true, runValidators: true })
 }
+
+module.exports.deleteGameById = (gameId) => Game.findByIdAndDelete(gameId)

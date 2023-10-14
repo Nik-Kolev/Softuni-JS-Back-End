@@ -52,7 +52,7 @@ creatureController.get('/delete/:id', authentication, async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         const { creature, isOwner, canVote, totalVotes, emails } = await creatureDataFetcher(creatureId, userId)
-        res.render('creature/details', { ...creature, title: 'Details', isOwner, canVote, totalVotes, emails, errors })
+        res.render('creature/details', { title: 'Details', errors, ...creature, isOwner, canVote, totalVotes, emails })
     }
 })
 
@@ -88,7 +88,7 @@ creatureController.post('/edit/:id', authentication, async (req, res) => {
         res.redirect(`/details/${creatureId}`)
     } catch (err) {
         const errors = errorHandler(err)
-        res.render('creature/edit', { errors, title: 'Edit Creature' })
+        res.render('creature/edit', { errors, title: 'Edit Creature', ...req.body })
     }
 })
 

@@ -25,7 +25,7 @@ module.exports.deleteCreature = async (creatureId) => {
 }
 
 module.exports.updateCreature = async (creatureId, editedData) => {
-    return Creature.findByIdAndUpdate(creatureId, editedData)
+    return Creature.findByIdAndUpdate(creatureId, editedData, { new: true, runValidators: true })
 }
 
 module.exports.getAllOwnedCreatures = async (userId) => {

@@ -2,8 +2,14 @@ const errorHandler = require('../utils/errorHandler')
 const bookServices = require('../services/bookServices')
 const bookController = require('express').Router()
 
-bookController.get('/catalog', (req, res) => {
-    res.render('catalog', { title: 'Catalog' })
+bookController.get('/catalog', async (req, res) => {
+    try {
+        const books = await bookServices.getAllBooks().lean()
+        res.render('catalog', { title: 'Catalog', books })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('catalog', { title: 'Catalog', errors })
+    }
 })
 
 bookController.get('/create', (req, res) => {

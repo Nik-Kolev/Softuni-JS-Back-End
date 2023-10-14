@@ -3,14 +3,14 @@ const tokenHandler = require('../utils/tokenHandler')
 const bcrypt = require('bcrypt')
 
 module.exports.register = async (userData) => {
-    const { email, password, rePass } = userData
+    const { username, email, password, rePass } = userData
     const user = await User.exists({ email })
 
     if (user) {
         throw new Error('User with such email already exists!')
     }
 
-    const newUser = await User.create({ email, password, rePass })
+    const newUser = await User.create({ username, email, password, rePass })
 
     return tokenHandler.tokenCreator(newUser, { expiresIn: '2d' })
 }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const bookSchema = new mongoose.Schema({
-    title: {
+    bookTitle: {
         type: String,
         required: [true, 'Title is required !'],
         minLength: [2, 'Title must be at least 2 characters long !'],

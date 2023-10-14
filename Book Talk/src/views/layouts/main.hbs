@@ -11,6 +11,15 @@
     </head>
 
     <body>
+        {{#if errors}}
+            <div>
+                <div class='errorContainer'>
+                    {{#each errors}}
+                        <p>{{this}}</p>
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
 
         <header class='header'>
 

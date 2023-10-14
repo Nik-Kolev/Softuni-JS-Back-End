@@ -7,9 +7,9 @@ userController.get('/register', async (req, res) => {
 })
 
 userController.post('/register', async (req, res) => {
-    const { email, password, rePass } = req.body
+    const { username, email, password, rePass } = req.body
     try {
-        const token = await userServices.register({ email, password, rePass })
+        const token = await userServices.register({ username, email, password, rePass })
         res.cookie('token', token)
         res.redirect('/')
     } catch (err) {

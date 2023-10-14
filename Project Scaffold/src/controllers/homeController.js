@@ -1,7 +1,7 @@
 const homeController = require('express').Router()
 
 homeController.get('/', async (req, res) => {
-    res.render('home', { title: 'Home', errors })
+    res.render('home', { title: 'Home' })
 })
 
 homeController.get('/404', (req, res) => {

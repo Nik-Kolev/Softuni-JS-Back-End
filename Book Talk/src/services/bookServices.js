@@ -7,7 +7,9 @@ module.exports.getAllBooks = () => Book.find()
 
 module.exports.getSingleBookById = (bookId) => Book.findOne({ _id: bookId }).populate('owner')
 
-module.exports.wishForTheBook = (bookId, userId) => Book.findOneAndUpdate({ _id: bookId }, { $push: { wishingList: userId } }, { new: true })
+module.exports.wishForTheBook = (bookId, userId) => {
+    return Book.findOneAndUpdate({ _id: bookId, wishingList: { $ne: userId } }, { $push: { wishingList: userId } }, { new: true })
+}
 
 module.exports.deleteSingleBookById = (bookId) => Book.findOneAndDelete({ _id: bookId })
 

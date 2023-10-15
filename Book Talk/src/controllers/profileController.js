@@ -1,8 +1,9 @@
 const errorHandler = require('../utils/errorHandler')
 const bookServices = require('../services/bookServices')
+const { isAuthorized } = require('../middlewares/authMiddleware')
 const profileController = require('express').Router()
 
-profileController.get('/profile', async (req, res) => {
+profileController.get('/profile', isAuthorized, async (req, res) => {
     try {
         const email = req.user?.email
         const userId = req.user?._id

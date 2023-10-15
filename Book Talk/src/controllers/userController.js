@@ -1,6 +1,7 @@
 const userController = require('express').Router()
 const userServices = require('../services/userServices')
 const errorHandler = require('../utils/errorHandler')
+const { isAuthorized } = require('../middlewares/authMiddleware')
 
 userController.get('/register', async (req, res) => {
     res.render('user/register', { title: 'Register' })
@@ -36,7 +37,7 @@ userController.post('/login', async (req, res) => {
     }
 })
 
-userController.get('/logout', (req, res) => {
+userController.get('/logout', isAuthorized, (req, res) => {
     res.clearCookie('token')
     res.redirect('/')
 })

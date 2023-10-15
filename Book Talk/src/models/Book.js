@@ -39,7 +39,7 @@ const bookSchema = new mongoose.Schema({
     },
     wishingList: [{
         type: mongoose.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     }],
     owner: {
         type: mongoose.Types.ObjectId,

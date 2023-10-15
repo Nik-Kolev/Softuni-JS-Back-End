@@ -8,7 +8,7 @@ module.exports = function errorHandler(error) {
             return acc
         }, {})
     } else {
-        return error
+        return { error: error.message }
     }
 }
 

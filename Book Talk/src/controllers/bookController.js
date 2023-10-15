@@ -50,6 +50,7 @@ bookController.get('/wish/:id', async (req, res) => {
         res.redirect(`/details/${req.params.id}`)
     } catch (err) {
         const errors = errorHandler(err)
+        console.log(err)
         res.render('books/details', { title: 'Book Details', errors })
     }
 })

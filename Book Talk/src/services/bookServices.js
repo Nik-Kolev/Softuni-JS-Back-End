@@ -9,3 +9,5 @@ module.exports.getSingleBookById = (bookId) => Book.findOne({ _id: bookId }).pop
 module.exports.wishForTheBook = (bookId, userId) => Book.findOneAndUpdate({ _id: bookId, $push: { wishingList: userId }, new: true })
 
 module.exports.deleteSingleBookById = (bookId) => Book.findOneAndDelete({ _id: bookId })
+
+module.exports.editSingleBookById = (bookId, bookData) => Book.findOneAndUpdate({ _id: bookId }, bookData, { runValidators: true })

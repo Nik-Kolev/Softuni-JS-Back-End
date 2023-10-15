@@ -1,6 +1,5 @@
 const errorHandler = require('../utils/errorHandler')
 const bookServices = require('../services/bookServices')
-const inquirer = require('inquirer');
 const bookController = require('express').Router()
 
 bookController.get('/catalog', async (req, res) => {
@@ -65,4 +64,26 @@ bookController.get('/delete/:id', async (req, res) => {
     }
 })
 
+bookController.get('/edit/:id', async (req, res) => {
+    try {
+        const book = await bookServices.getSingleBookById(req.params.id).lean()
+        res.render('books/edit', { title: 'Book Edit', ...book })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('books/edit', { title: 'Book Edit', errors })
+    }
+})
+
+bookController.post('/edit/:id', async (req, res) => {
+    const { author, genre, stars, imageUrl, review } = req.body
+    const bookTitle = req.body.title
+    const bookId = req.params.id
+    try {
+        await bookServices.editSingleBookById(bookId, { bookTitle, author, genre, stars, imageUrl, review })
+        res.redirect(`/details/${bookId}`)
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('books/edit', { title: 'Book Edit', errors })
+    }
+})
 module.exports = bookController

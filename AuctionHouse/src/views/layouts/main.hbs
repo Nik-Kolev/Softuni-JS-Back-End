@@ -1,0 +1,67 @@
+<html lang='en'>
+
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <link rel='stylesheet' href='/css/site.css' />
+        <title>{{title}}</title>
+    </head>
+
+    <body>
+
+        <div id='page-content'>
+
+            <header>
+                <a href='/' class='title-logo'>
+                    <img src='/assets/logo.png' />
+                    <span>Auction House</span>
+                </a>
+                <nav class='main-nav nav-mid'>
+                    <ul>
+                        <li>
+                            <a href='#'>Browse</a>
+                        </li>
+                        <!-- User actions -->
+                        <li class='user'>
+                            <a href='#'>Publish</a>
+                        </li>
+
+                        <!-- Bonus action -->
+                        <!--
+                    <li class="user">
+                        <a href="#">Closed Auctions</a>
+                    </li>
+                    -->
+
+                        <li class='user'>
+                            <a href='/logout'>Logout</a>
+                        </li>
+                        <!-- Guest actions -->
+                        <li class='guest'>
+                            <a href='/register'>Register</a>
+                        </li>
+                        <li class='guest'>
+                            <a href='/login'>Login</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                {{#if errors}}
+                    <div>
+                        <div class='error-box'>
+                            {{#each errors}}
+                                <p>{{this}}</p>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/if}}
+                {{{body}}}
+            </main>
+            <footer>SoftUni &copy; 2022 | Design by Viktor Kostadinov</footer>
+        </div>
+
+    </body>
+
+</html>

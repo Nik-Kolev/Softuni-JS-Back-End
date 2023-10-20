@@ -39,10 +39,10 @@ const auctionSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
-    bidder: [{
+    bidder: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    }],
+    },
 })
 
 const Auction = mongoose.model('Auction', auctionSchema)

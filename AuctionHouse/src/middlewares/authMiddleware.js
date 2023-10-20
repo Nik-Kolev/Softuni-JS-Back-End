@@ -1,5 +1,6 @@
 const jwt = require('../utils/jwtPromisify')
 const SECRET = require('../config/additionalConfigInfo')
+const auctionServices = require('../services/auctionServices')
 
 module.exports.authentication = async (req, res, next) => {
     const token = req.cookies['token']
@@ -24,4 +25,12 @@ module.exports.isAuthorized = async (req, res, next) => {
     } else {
         next()
     }
+}
+
+module.exports.isOwner = async (req, res, next) => {
+    const auction = await auctionServices.getSingleAuctionById(req.params.id)
+    if (req.user?._id == auction.owner._id) {
+        return res.redirect(`/details/${req.params.id}`)
+    }
+    next()
 }

@@ -15,7 +15,7 @@ userController.post('/register', async (req, res) => {
     } catch (err) {
         const errors = errorHandler(err)
         res.clearCookie()
-        res.render('user/register', { title: 'Register', errors })
+        res.render('user/register', { title: 'Register', errors, email, firstName, lastName })
     }
 })
 

@@ -8,15 +8,15 @@
 
             <label>
                 <span>Email</span>
-                <input type='text' name='email' />
+                <input type='text' name='email' {{#unless errors.email}} value='{{email}}' {{else}} value='' {{/unless}}/>
             </label>
             <label>
                 <span>First name</span>
-                <input type='text' name='firstName' />
+                <input type='text' name='firstName' {{#unless errors.firstName}}value='{{firstName}}'{{/unless}}/>
             </label>
             <label>
                 <span>Last name</span>
-                <input type='text' name='lastName' />
+                <input type='text' name='lastName' {{#unless errors.lastName}}value='{{lastName}}'{{/unless}}/>
             </label>
             <label>
                 <span>Password</span>

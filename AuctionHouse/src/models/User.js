@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -36,14 +37,20 @@ userSchema.virtual('rePass').set(function (value) {
     if (value.length == 0 && this.password.length > 0 && this.email.length > 0) {
         throw new Error('Repeat password is required !')
     }
-    if (this.password && this.email && value != this.password) {
-        throw new Error('Email or password is invalid !')
+    if (this.password != value) {
+        throw new Error('Password and Repeat Password must match !')
     }
+})
+
+userSchema.virtual('fullName').get(function () {
+    return this.firstName + ' ' + this.lastName
 })
 
 userSchema.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 10)
 })
+
+userSchema.plugin(mongooseLeanVirtuals);
 
 const User = mongoose.model('User', userSchema)
 

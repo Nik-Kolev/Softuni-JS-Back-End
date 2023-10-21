@@ -10,7 +10,6 @@ auctionController.get('/publish', (req, res) => {
 auctionController.post('/publish', async (req, res) => {
     const { auctionTitle, category, imageUrl, price, description } = req.body
     const userId = req.user._id
-    console.log(req.user.fullName)
     try {
         await auctionServices.createAuction({ auctionTitle, category, imageUrl, price, description, author: userId })
         res.redirect('/browse')
@@ -105,6 +104,33 @@ auctionController.get('/delete/:id', async (req, res) => {
 
         let bids = !!auction.bidder
         res.render('auctions/edit', { title: 'Edit Details', errors, currentCategoryOption, ...auction, bids })
+    }
+})
+
+auctionController.get('/closeAuction/:id', async (req, res) => {
+    try {
+        await auctionServices.closeAuction(req.params.id)
+        res.redirect('/closedAuctions')
+    } catch (err) {
+        const errors = errorHandler(err)
+        const auction = await auctionServices.getSingleAuctionById(req.params.id).lean({ virtuals: true })
+
+        let currentCategoryOption = Object.assign(categoryOptions, {})
+        Object.values(currentCategoryOption).map(x => x.option == auction.category ? x.isTrue = true : x.isTrue = false)
+
+        let bids = !!auction.bidder
+        res.render('auctions/edit', { title: 'Edit Details', errors, currentCategoryOption, ...auction, bids })
+    }
+})
+
+
+auctionController.get('/closedAuctions', async (req, res) => {
+    try {
+        const auctions = await auctionServices.getAllClosedAuctions().lean()
+        res.render('auctions/closed-auctions', { title: 'Closed Auctions', auctions })
+    } catch (err) {
+        const errors = errorHandler(err)
+        res.render('auctions/closed-auctions', { title: 'Closed Auctions', errors })
     }
 })
 

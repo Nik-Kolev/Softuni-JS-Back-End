@@ -2,7 +2,7 @@ const Auction = require("../models/Auction");
 
 module.exports.createAuction = (auctionData) => Auction.create(auctionData)
 
-module.exports.getAll = () => Auction.find()
+module.exports.getAll = () => Auction.find({ isClosed: false })
 
 module.exports.getSingleAuctionById = (auctionId) => Auction.findById(auctionId).populate('author').populate('bidder')
 
@@ -38,3 +38,7 @@ module.exports.bidForAuction = async (auctionId, userId, price) => {
 module.exports.editAuction = (auctionId, data) => Auction.findByIdAndUpdate({ _id: auctionId }, data, { runValidators: true }, { new: true })
 
 module.exports.deleteAuction = (auctionId) => Auction.findByIdAndDelete(auctionId)
+
+module.exports.closeAuction = (auctionId) => Auction.findByIdAndUpdate({ _id: auctionId }, { isClosed: true })
+
+module.exports.getAllClosedAuctions = () => Auction.find({ isClosed: true })

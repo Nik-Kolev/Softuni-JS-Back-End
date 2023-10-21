@@ -1,0 +1,34 @@
+            <section id="catalog-section" class="spaced">
+
+                <h1 class="item">Closed Auctions</h1>
+                {{#if auctions}}
+                <!-- List of closed auctions for the current user -->
+                <ul class="catalog cards">
+                    {{#each auctions}}
+                    <li class="item">
+                        <header class="pad-med">
+                            <h2>{{auctionTitle}}</h2>
+                        </header>
+
+                        <div class="align-center">
+
+                            <img class="img-thumb" src="{{imageUrl}}">
+
+                        </div>
+
+                        <footer class="align-center pad-med">
+                            <p>Closing price: <strong>${{price}}</strong></p>
+                            {{auctions.fullName}}
+                        </footer>
+                    </li>
+                    {{/each}}
+                </ul>
+                {{else}}
+                <!-- If the current user doesn't have closed auctions -->
+                <div class="item pad-large align-center">
+                    <p>You haven't closed any auctions yet.</p>
+                </div>
+                {{/if}}
+            </section>
+
+        </main>

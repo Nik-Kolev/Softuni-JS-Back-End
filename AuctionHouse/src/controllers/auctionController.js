@@ -2,6 +2,7 @@ const errorHandler = require('../utils/errorHandler')
 const auctionServices = require('../services/auctionServices')
 const auctionController = require('express').Router()
 const { categoryOptions } = require('../config/additionalConfigInfo')
+const { isAuthorized } = require('../middlewares/authMiddleware')
 
 auctionController.get('/publish', (req, res) => {
     res.render('auctions/publish', { title: 'Publish' })

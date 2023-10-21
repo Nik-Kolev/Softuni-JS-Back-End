@@ -1,22 +1,4 @@
-const jwt = require('../utils/jwtPromisify')
-const SECRET = require('../config/additionalConfigInfo')
-
-module.exports.authentication = async (req, res, next) => {
-    const token = req.cookies['token']
-
-    if (token) {
-        try {
-            const decodedToken = await jwt.verify(token, SECRET)
-            req.user = decodedToken
-            res.locals.user = decodedToken
-            res.locals.isAuth = true
-        } catch (err) {
-            res.clearCookie('token')
-            res.redirect('/login')
-        }
-    }
-    next()
-}
+const exampleService = require('../services/exampleServices')
 
 module.exports.isAuthorized = async (req, res, next) => {
     if (!req.user) {
@@ -25,3 +7,13 @@ module.exports.isAuthorized = async (req, res, next) => {
         next()
     }
 }
+
+module.exports.isOwner = async (req, res, next) => {
+    const propertyId = req.params.id;
+    const singleProperty = await exampleService.getSinglePropertyById(propertyId);
+    const userId = req.user ? req.user._id.toString() : null;
+    if (userId === singleProperty.owner._id.toString()) {
+        return next();
+    }
+    res.redirect(`/details/${propertyId}`);
+};

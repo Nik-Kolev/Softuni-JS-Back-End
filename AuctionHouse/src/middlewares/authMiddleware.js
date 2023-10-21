@@ -1,5 +1,5 @@
 const jwt = require('../utils/jwtPromisify')
-const SECRET = require('../config/additionalConfigInfo')
+const { SECRET } = require('../config/additionalConfigInfo')
 const auctionServices = require('../services/auctionServices')
 
 module.exports.authentication = async (req, res, next) => {

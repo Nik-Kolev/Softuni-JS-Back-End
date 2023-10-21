@@ -1,5 +1,5 @@
 const jwt = require('./jwtPromisify')
-const SECRET = require('../config/additionalConfigInfo')
+const { SECRET } = require('../config/additionalConfigInfo')
 
 
 module.exports.tokenCreator = async (payloadData) => {

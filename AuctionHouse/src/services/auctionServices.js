@@ -34,3 +34,6 @@ module.exports.bidForAuction = async (auctionId, userId, price) => {
         }
     ], { new: true });
 }
+
+module.exports.editAuction = (auctionId, data) => Auction.findByIdAndUpdate({ _id: auctionId }, data, { runValidators: true }, { new: true })
+

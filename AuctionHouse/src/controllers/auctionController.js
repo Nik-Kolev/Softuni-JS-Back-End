@@ -92,4 +92,20 @@ auctionController.post('/edit/:id', async (req, res) => {
     }
 })
 
+auctionController.get('/delete/:id', async (req, res) => {
+    try {
+        await auctionServices.deleteAuction(req.params.id)
+        res.redirect('/browse')
+    } catch (err) {
+        const errors = errorHandler(err)
+        const auction = await auctionServices.getSingleAuctionById(req.params.id).lean({ virtuals: true })
+
+        let currentCategoryOption = Object.assign(categoryOptions, {})
+        Object.values(currentCategoryOption).map(x => x.option == auction.category ? x.isTrue = true : x.isTrue = false)
+
+        let bids = !!auction.bidder
+        res.render('auctions/edit', { title: 'Edit Details', errors, currentCategoryOption, ...auction, bids })
+    }
+})
+
 module.exports = auctionController

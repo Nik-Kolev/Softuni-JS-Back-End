@@ -37,3 +37,4 @@ module.exports.bidForAuction = async (auctionId, userId, price) => {
 
 module.exports.editAuction = (auctionId, data) => Auction.findByIdAndUpdate({ _id: auctionId }, data, { runValidators: true }, { new: true })
 
+module.exports.deleteAuction = (auctionId) => Auction.findByIdAndDelete(auctionId)
